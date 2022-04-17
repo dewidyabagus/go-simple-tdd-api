@@ -1,3 +1,0 @@
-mode: atomic
-go-simple-api/api/v1/welcome/controller.go:12.34,14.2 1 1
-go-simple-api/api/v1/welcome/controller.go:16.55,18.2 1 1
