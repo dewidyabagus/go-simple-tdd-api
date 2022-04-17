@@ -2,10 +2,11 @@ package user
 
 import (
 	"database/sql"
-	"os/user"
 	"time"
 
 	"gorm.io/gorm"
+
+	"go-simple-api/business/user"
 )
 
 type User struct {
@@ -30,8 +31,8 @@ func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db}
 }
 
-func (r *Repository) InsertNewUser(newUser *user.User) error {
-	return nil
+func (r *Repository) InsertNew(newUser *user.User) error {
+	return r.db.Create(r.toInsertModel(newUser)).Error
 }
 
 func (r *Repository) GetByUsernameOrEmail(login string) (*user.User, error) {
@@ -44,4 +45,17 @@ func (r *Repository) UpdateByUniqueId(uniqueID string, updateUser *user.User) er
 
 func (r *Repository) DeleteByUniqueId(uniqueID string) error {
 	return nil
+}
+
+func (r *Repository) toInsertModel(u *user.User) *User {
+	return &User{
+		Username:  u.Username,
+		Email:     u.Email,
+		FirstName: u.FirstName,
+		LastName:  u.LastName,
+		Password:  u.Password,
+		Verify:    u.Verify,
+		CreatedAt: u.CreatedAt,
+		UpdatedAt: u.UpdatedAt,
+	}
 }
